@@ -1,0 +1,27 @@
+FROM alpine
+
+LABEL  authors=Spawn6123
+
+RUN apk update \
+&& apk upgrade \
+&& apk add --no-cache tzdata \
+&& cp /usr/share/zoneinfo/Asia/Taipei /etc/localtime\
+&& echo "Asia/Taipei" > /etc/timezone \
+&& date \
+&& apk del tzdata \
+&& apk add --no-cache ansible \
+&& apk add --no-cache python3 \
+&& apk add --no-cache openssh-client \
+#&& apk add --no-cache vim \
+&& mkdir /etc/ansible/ \
+&& mkdir ~/.ssh/ \
+#&& ssh-keygen -q -t ed25519 -N '' -f /root/.ssh/id_ed25519 \
+&& printf 'nod1\n\
+nod2' >> /etc/ansible/hosts \
+&& rm  -rf /tmp/* /var/cache/apk/* \
+&& printf '[defaults]\n\
+interpreter_python=auto_silent' >> ~/.ansible.cfg
+COPY id_ed25519 id_ed25519.pub /root/.ssh/ 
+RUN chmod 600 -Rf /root/.ssh/
+
+CMD ["/bin/sh"]

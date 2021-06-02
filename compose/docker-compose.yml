@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  master:
+    image: ansible/control:1.0
+    stdin_open: true
+    tty: true
+    ports:
+      - "7000:22"
+    depends_on:
+      - nod1
+      - nod2
+
+  nod1:
+    image: ansible/client:1.0
+    stdin_open: true
+    tty: true
+    ports:
+      - "7001:22"
+
+  nod2:
+    image: ansible/client:1.0
+    stdin_open: true
+    tty: true
+    ports:
+      - "7002:22"
